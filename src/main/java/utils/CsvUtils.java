@@ -9,6 +9,7 @@ import java.lang.reflect.Method;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
@@ -42,33 +43,42 @@ public class CsvUtils {
 			HttpServletResponse response, String fileName) {
 		BufferedWriter buffCvsWriter = null;
 		try {
+			fileName += "-"+DateUtils.formatDate2Str(new Date(),DateUtils.YYYYMMDD)+".csv";
 			fileName = URLEncoder.encode(fileName, StandardCharsets.UTF_8.toString());
 			response.setContentType(CONTENT_TYPE_CSV);
-			response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"; filename=utf-8''");
+			response.setHeader("Content-Disposition", "attachment; filename*=UTF-8''" + fileName);
 			buffCvsWriter = new BufferedWriter(new OutputStreamWriter(response.getOutputStream(), CHARSET_NAME));
 			StringBuilder stringBuilder = new StringBuilder();
-			for (int a=0;a<headers.size();a++){
+			for (int a = 0; a < headers.size(); a++) {
 				String head = headers.get(a).split(SPLIT_COMMA)[0];
 				stringBuilder.append("\"" + head + "\"");
-				if(a < headers.size() -1){
+				if (a < headers.size() - 1) {
 					stringBuilder.append(SPLIT_COMMA);
 				}
 			}
 			stringBuilder.append(NEW_LINE);
+			if (converts == null) {
+				converts = new HashMap<>();
+			}
 			for (int i = 0; i < datas.size(); i++) {
 				for (int j = 0; j < headers.size(); j++) {
-					String s = headers.get(j).split(SPLIT_COMMA)[1];
+					String[] params = headers.get(j).split(SPLIT_COMMA);
+					String s = params[1];
 					String[] split = s.split(SPLIT_LINE);
 					String property = split[0];
 					Object val = getVal(datas.get(i), property);
-					if (split.length > 1 && NEED_CONVERT.equals(split[1])) {
+					if (val != null && split.length > 1 && NEED_CONVERT.equals(split[1])) {
 						val = converts.get(property + SPLIT_LINE + val.toString());
 					}
 					if (val == null) {
 						val = "";
 					}
 					if (val instanceof Date) {
-						val = DateUtils.formatDate2Str((Date) val, DateUtils.YYYY_MM_DD_HH_MM_SS);
+						String format = DateUtils.YYYY_MM_DD;
+						if(params.length >2){
+							format = params[2];
+						}
+						val = DateUtils.formatDate2Str((Date) val, format);
 					}
 					stringBuilder.append("\"" + val.toString() + "\"");
 					if (j < headers.size() - 1) {
