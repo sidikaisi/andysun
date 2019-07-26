@@ -1,3 +1,4 @@
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -27,6 +28,7 @@ import java.util.concurrent.TimeUnit;
 @EnableAutoConfiguration
 @SpringBootApplication(scanBasePackages = "com.andysun")
 @EnableElasticsearchRepositories(basePackages = "com.andysun.repository")
+@MapperScan(value = "com.andysun.**.mapper")
 public class Application {
 	public static void main(String[] args) {
 		ConfigurableApplicationContext app = SpringApplication.run(Application.class, args);

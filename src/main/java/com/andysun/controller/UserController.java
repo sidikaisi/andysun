@@ -3,11 +3,7 @@ package com.andysun.controller;
 import com.andysun.entity.UserEntity;
 import com.andysun.repository.UserEsRepository;
 import com.andysun.response.BaseResp;
-import com.andysun.service.IUserService;
-import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,7 +21,7 @@ import java.util.Date;
 public class UserController extends BaseController {
 
 	// es 开始是注入不进来，需要增加 @EnableElasticsearchRepositories(basePackages = "com.andysun.repository")
-	@Autowired
+//	@Autowired
 	private UserEsRepository userEsRepository;
 
 	/**
