@@ -33,6 +33,7 @@ public class DroolsService implements IDroolsService {
 		int count = kieSession.fireAllRules(new RuleNameStartsWithAgendaFilter("test_"));
 		log.info(">>>>>>规则个数{},耗时{}",count,(System.currentTimeMillis()-t1));
 		log.info(">>>>>>,user={}",JSONObject.toJSONString(user));
+		kieSession.dispose();
 		return user;
 	}
 }
