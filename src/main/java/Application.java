@@ -9,6 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import utils.SpringContextUtil;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingDeque;
@@ -32,6 +33,7 @@ import java.util.concurrent.TimeUnit;
 public class Application {
 	public static void main(String[] args) {
 		ConfigurableApplicationContext app = SpringApplication.run(Application.class, args);
+		SpringContextUtil.setApplicationContext(app);
 	}
 
 	@Bean(name = "myPool")

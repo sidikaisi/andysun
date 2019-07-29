@@ -1,0 +1,33 @@
+
+package com.andysun.drools
+
+import com.andysun.entity.UserEntity
+import java.util.Date
+
+rule "test_100"
+    salience 100
+    when
+        $user : UserEntity();
+        UserEntity( name == "andysun");
+    then
+        $user.setId(100L);
+        $user.setName("张小俊");
+     end
+
+rule "test_99"
+    salience 99
+    when
+        $user : UserEntity();
+        t : UserEntity(name contains "and" );
+    then
+        $user.setBirthday(new Date());
+     end
+
+
+rule "test_0"
+    salience 0
+    when
+        eval(true);
+    then
+        System.out.println("rule:" + drools.getRule().getName());
+    end

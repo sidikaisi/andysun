@@ -26,6 +26,7 @@
         <fastjson.version>1.2.4</fastjson.version>
         <commons-beanutils.version>1.9.3</commons-beanutils.version>
         <mysql.version>8.0.17</mysql.version>
+        <drools.version>7.23.0.Final</drools.version>
     </properties>
 
     <dependencies>
@@ -33,6 +34,19 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+        </dependency>
+
+        <!-- 规则引擎 -->
+        <dependency>
+            <groupId>org.kie</groupId>
+            <artifactId>kie-spring</artifactId>
+            <version>${drools.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-compiler</artifactId>
+            <version>${drools.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-jexl3 -->
