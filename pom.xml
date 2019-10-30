@@ -23,7 +23,7 @@
         <druid.version>1.1.2</druid.version>
         <pagehelper.version>4.1.6</pagehelper.version>
         <commons-lang3.version>3.4</commons-lang3.version>
-        <fastjson.version>1.2.4</fastjson.version>
+        <fastjson.version>1.2.25</fastjson.version>
         <commons-beanutils.version>1.9.3</commons-beanutils.version>
         <mysql.version>8.0.17</mysql.version>
         <drools.version>7.23.0.Final</drools.version>
