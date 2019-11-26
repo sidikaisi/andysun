@@ -17,9 +17,12 @@ public class UserEntity extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
-	private Long id;
-
 	private String name;
 
+	private Boolean male;
+
+	private Integer age;
+
 	private Date birthday;
+
 }

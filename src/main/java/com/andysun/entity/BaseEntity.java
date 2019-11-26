@@ -3,6 +3,7 @@ package com.andysun.entity;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  *  @Description
@@ -13,5 +14,12 @@ import java.io.Serializable;
 @Data
 public class BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
+
+	private Long id;
+
+	private Date createTime;
+
+	private Date updateTime;
+
 
 }
