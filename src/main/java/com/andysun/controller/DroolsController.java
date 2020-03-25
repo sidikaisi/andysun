@@ -21,7 +21,7 @@ public class DroolsController {
 	private IDroolsService droolsService;
 
 	@GetMapping("test-rule")
-	public UserEntity testRule(){
+	public UserEntity testRule() {
 		return droolsService.testRule();
 	}
 }

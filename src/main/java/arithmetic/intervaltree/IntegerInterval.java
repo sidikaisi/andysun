@@ -12,7 +12,8 @@ public class IntegerInterval extends Interval<Integer> {
 	 * Instantiates an interval extending from positive infinity to negative
 	 * infinity and thus containing all Integers.
 	 */
-	public IntegerInterval(){}
+	public IntegerInterval() {
+	}
 
 	/**
 	 * Instantiates a new bounded interval.
@@ -23,7 +24,7 @@ public class IntegerInterval extends Interval<Integer> {
 	 *             of its ends. See {@link Bounded the documentation of the Bounded enum}
 	 *             for more information on the different possibilities.
 	 */
-	public IntegerInterval(Integer start, Integer end, Bounded type){
+	public IntegerInterval(Integer start, Integer end, Bounded type) {
 		super(start, end, type);
 	}
 
@@ -37,12 +38,12 @@ public class IntegerInterval extends Interval<Integer> {
 	 *             as well as if it is open or closed at the bounding point. See {@link Unbounded
 	 *             the Unbounded enum} for description of the different possibilities.
 	 */
-	public IntegerInterval(Integer value, Unbounded type){
+	public IntegerInterval(Integer value, Unbounded type) {
 		super(value, type);
 	}
 
 	@Override
-	protected IntegerInterval create(){
+	protected IntegerInterval create() {
 		return new IntegerInterval();
 	}
 
@@ -60,8 +61,8 @@ public class IntegerInterval extends Interval<Integer> {
 		if (isEmpty())
 			return null;
 		long from = getStart() == null ? Integer.MIN_VALUE : getStart();
-		long to = getEnd() ==  null ? Integer.MAX_VALUE : getEnd();
-		return (int)((from + to)/2);
+		long to = getEnd() == null ? Integer.MAX_VALUE : getEnd();
+		return (int) ((from + to) / 2);
 	}
 
 	/**
@@ -76,7 +77,7 @@ public class IntegerInterval extends Interval<Integer> {
 	public boolean isEmpty() {
 		if (getStart() == null || getEnd() == null)
 			return false;
-		if (getStart()+1 == getEnd() && !isEndInclusive() && !isStartInclusive())
+		if (getStart() + 1 == getEnd() && !isEndInclusive() && !isStartInclusive())
 			return true;
 		return super.isEmpty();
 	}

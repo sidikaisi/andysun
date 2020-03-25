@@ -41,7 +41,7 @@ public class Application {
 		// 暂且先这样配置，等有统一的配置中心了，这些参数放入配置中心里面
 		ExecutorService executorService = new ThreadPoolExecutor(5, 20, 5, TimeUnit.MINUTES, new LinkedBlockingDeque(),
 				new ThreadPoolExecutor.CallerRunsPolicy());
-//		return TtlExecutors.getTtlExecutorService(executorService);
+		//		return TtlExecutors.getTtlExecutorService(executorService);
 		return executorService;
 	}
 }

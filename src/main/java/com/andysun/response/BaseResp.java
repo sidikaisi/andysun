@@ -19,7 +19,7 @@ public class BaseResp {
 
 	private Object result;
 
-	public BaseResp success(Object result){
+	public BaseResp success(Object result) {
 		this.result = result;
 		return this;
 	}

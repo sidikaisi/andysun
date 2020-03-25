@@ -33,7 +33,7 @@ public class IntervalTree<T extends Comparable<? super T>> extends AbstractSet<I
 	 *         or {@code false} otherwise.
 	 */
 	@Override
-	public boolean add(Interval<T> interval){
+	public boolean add(Interval<T> interval) {
 		if (interval.isEmpty())
 			return false;
 		int sizeBeforeOperation = size;
@@ -52,7 +52,7 @@ public class IntervalTree<T extends Comparable<? super T>> extends AbstractSet<I
 	 * @param point The query point.
 	 * @return A set containing all intervals from the tree, intersecting the query point.
 	 */
-	public Set<Interval<T>> query(T point){
+	public Set<Interval<T>> query(T point) {
 		return TreeNode.query(root, point, new HashSet<Interval<T>>());
 	}
 
@@ -67,29 +67,28 @@ public class IntervalTree<T extends Comparable<? super T>> extends AbstractSet<I
 	 * @param interval The query interval.
 	 * @return A set containing all intervals from the tree, intersecting the query interval.
 	 */
-	public Set<Interval<T>> query(Interval<T> interval){
+	public Set<Interval<T>> query(Interval<T> interval) {
 		Set<Interval<T>> result = new HashSet<>();
 
 		if (root == null || interval.isEmpty())
 			return result;
 		TreeNode<T> node = root;
-		while (node != null){
-			if (interval.contains(node.midpoint)){
+		while (node != null) {
+			if (interval.contains(node.midpoint)) {
 				result.addAll(node.increasing);
 				TreeNode.rangeQueryLeft(node.left, interval, result);
 				TreeNode.rangeQueryRight(node.right, interval, result);
 				break;
 			}
 			if (interval.isLeftOf(node.midpoint)) {
-				for (Interval<T> next: node.increasing){
+				for (Interval<T> next : node.increasing) {
 					if (!interval.intersects(next))
 						break;
 					result.add(next);
 				}
 				node = node.left;
-			}
-			else {
-				for (Interval<T> next: node.decreasing){
+			} else {
+				for (Interval<T> next : node.decreasing) {
 					if (!interval.intersects(next))
 						break;
 					result.add(next);
@@ -111,7 +110,7 @@ public class IntervalTree<T extends Comparable<? super T>> extends AbstractSet<I
 	 * @param interval
 	 * @return
 	 */
-	public boolean remove(Interval<T> interval){
+	public boolean remove(Interval<T> interval) {
 		if (interval.isEmpty() || root == null)
 			return false;
 		int sizeBeforeOperation = size;
@@ -120,23 +119,20 @@ public class IntervalTree<T extends Comparable<? super T>> extends AbstractSet<I
 	}
 
 
-
-
 	// =========================================================================
 	// ============== Iterator over the Intervals in the tree ==================
 	// =========================================================================
 
 	@Override
 	public Iterator<Interval<T>> iterator() {
-		if (root == null){
+		if (root == null) {
 			return Collections.emptyIterator();
-		}
-		else {
+		} else {
 			final TreeNode.TreeNodeIterator it = root.iterator();
 			return new Iterator<Interval<T>>() {
 				@Override
 				public void remove() {
-					if (it.currentNode.increasing.size() == 1){
+					if (it.currentNode.increasing.size() == 1) {
 						root = TreeNode.removeInterval(IntervalTree.this, root, it.currentInterval);
 
 						// Rebuild the whole branch stack in the iterator, because we might have
@@ -151,12 +147,11 @@ public class IntervalTree<T extends Comparable<? super T>> extends AbstractSet<I
 						// the iterator has marked for traversal next. This subtree must not
 						// become a part of the branch stack, or otherwise you will iterate over
 						// some intervals twice.
-						while (node != it.subtreeRoot){
+						while (node != it.subtreeRoot) {
 							if (it.currentNode.midpoint.compareTo(node.midpoint) < 0) {
 								it.stack.push(node);
 								node = node.left;
-							}
-							else {
+							} else {
 								node = node.right;
 							}
 						}
@@ -179,9 +174,6 @@ public class IntervalTree<T extends Comparable<? super T>> extends AbstractSet<I
 	}
 
 
-
-
-
 	// =========================================================================
 	// ================== Methods from the Set interface =======================
 	// =========================================================================
@@ -191,7 +183,7 @@ public class IntervalTree<T extends Comparable<? super T>> extends AbstractSet<I
 	 *
 	 * @return The amount of intervals, stored in the tree.
 	 */
-	public int size(){
+	public int size() {
 		return size;
 	}
 
@@ -220,13 +212,13 @@ public class IntervalTree<T extends Comparable<? super T>> extends AbstractSet<I
 		if (!(o instanceof Interval))
 			return false;
 		Interval<T> query;
-		query = (Interval<T>)o;
+		query = (Interval<T>) o;
 		TreeNode<T> node = root;
-		while (node != null){
-			if (query.contains(node.midpoint)){
+		while (node != null) {
+			if (query.contains(node.midpoint)) {
 				return node.increasing.contains(query);
 			}
-			if (query.isLeftOf(node.midpoint)){
+			if (query.isLeftOf(node.midpoint)) {
 				node = node.left;
 			} else {
 				node = node.right;

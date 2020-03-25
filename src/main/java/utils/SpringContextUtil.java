@@ -34,13 +34,13 @@ public class SpringContextUtil {
 		return applicationContext.getBean(requiredType);
 	}
 
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	public static <T> T getBeanByType(Class<?> requiredType) {
 		return (T) applicationContext.getBean(requiredType);
 	}
 
-    public static <T> Map<String, T> getBeans(Class<T> requiredType) {
-        return applicationContext.getBeansOfType(requiredType);
-    }
+	public static <T> Map<String, T> getBeans(Class<T> requiredType) {
+		return applicationContext.getBeansOfType(requiredType);
+	}
 
 }

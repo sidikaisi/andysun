@@ -14,7 +14,8 @@ public class DoubleInterval extends Interval<Double> {
 	 * Instantiates an interval extending from positive infinity to negative
 	 * infinity and thus containing all Doubles.
 	 */
-	public DoubleInterval(){ }
+	public DoubleInterval() {
+	}
 
 	/**
 	 * Instantiates a new bounded interval.
@@ -25,7 +26,7 @@ public class DoubleInterval extends Interval<Double> {
 	 *             of its ends. See {@link Bounded the documentation of the Bounded enum}
 	 *             for more information on the different possibilities.
 	 */
-	public DoubleInterval(Double start, Double end, Bounded type){
+	public DoubleInterval(Double start, Double end, Bounded type) {
 		super(0.0 + start, 0.0 + end, type);
 	}
 
@@ -39,7 +40,7 @@ public class DoubleInterval extends Interval<Double> {
 	 *             as well as if it is open or closed at the bounding point. See {@link Unbounded
 	 *             the Unbounded enum} for description of the different possibilities.
 	 */
-	public DoubleInterval(Double value, Unbounded type){
+	public DoubleInterval(Double value, Unbounded type) {
 		super(0.0 + value, type);
 	}
 
@@ -109,7 +110,7 @@ public class DoubleInterval extends Interval<Double> {
 			return getEnd() - OFFSET;
 		if (getEnd() == Double.POSITIVE_INFINITY)
 			return getStart() + OFFSET;
-		return getStart() + (getEnd() - getStart())/2;
+		return getStart() + (getEnd() - getStart()) / 2;
 	}
 }
 

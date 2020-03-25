@@ -12,7 +12,7 @@ import java.util.Date;
  *  @Version 1.0.0
  **/
 @Data
-@Document(indexName = "test",type = "user")
+@Document(indexName = "test", type = "user")
 public class UserEntity extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;

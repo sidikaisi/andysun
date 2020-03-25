@@ -55,7 +55,7 @@ public class TreeNode<T extends Comparable<? super T>> implements Iterable<Inter
 	 * @param interval The initial interval stored in the node. The middlepoint of
 	 *                 the node will be set based on this interval.
 	 */
-	public TreeNode(Interval<T> interval){
+	public TreeNode(Interval<T> interval) {
 		decreasing = new TreeSet<>(Interval.sweepRightToLeft);
 		increasing = new TreeSet<>(Interval.sweepLeftToRight);
 
@@ -77,22 +77,23 @@ public class TreeNode<T extends Comparable<? super T>> implements Iterable<Inter
 	 * @return The new root of the subtree. It may be different than the current root,
 	 *         if the subtree had to be rebalanced after the operation.
 	 */
-	public static <T extends Comparable<? super T>> TreeNode<T> addInterval(IntervalTree<T> tree, TreeNode<T> root, Interval<T> interval) {
+	public static <T extends Comparable<? super T>> TreeNode<T> addInterval(IntervalTree<T> tree, TreeNode<T> root,
+			Interval<T> interval) {
 		if (root == null) {
 			tree.size++;
 			return new TreeNode<>(interval);
 		}
-		if (interval.contains(root.midpoint)){
+		if (interval.contains(root.midpoint)) {
 			if (root.decreasing.add(interval))
 				tree.size++;
 			root.increasing.add(interval);
 			return root;
-		} else if (interval.isLeftOf(root.midpoint)){
+		} else if (interval.isLeftOf(root.midpoint)) {
 			root.left = addInterval(tree, root.left, interval);
-			root.height = Math.max(height(root.left), height(root.right))+1;
+			root.height = Math.max(height(root.left), height(root.right)) + 1;
 		} else {
 			root.right = addInterval(tree, root.right, interval);
-			root.height = Math.max(height(root.left), height(root.right))+1;
+			root.height = Math.max(height(root.left), height(root.right)) + 1;
 		}
 
 		return root.balanceOut();
@@ -104,7 +105,7 @@ public class TreeNode<T extends Comparable<? super T>> implements Iterable<Inter
 	 * @return The height of the subtree, rooted ad the current node. It will be 1, if
 	 * the node is a leaf.
 	 */
-	public int height(){
+	public int height() {
 		return height;
 	}
 
@@ -116,7 +117,7 @@ public class TreeNode<T extends Comparable<? super T>> implements Iterable<Inter
 	 * @return The height of the subtree rooted at {@code node}. Returns 0, if {@code node}
 	 * is {@code null}.
 	 */
-	private static int height(TreeNode node){
+	private static int height(TreeNode node) {
 		return node == null ? 0 : node.height();
 	}
 
@@ -129,19 +130,19 @@ public class TreeNode<T extends Comparable<? super T>> implements Iterable<Inter
 	 * triggered by a {@link #removeInterval(IntervalTree, TreeNode, Interval)} operation
 	 * and the removed interval had been the last one in the subtree.
 	 */
-	private TreeNode<T> balanceOut(){
+	private TreeNode<T> balanceOut() {
 		int balance = height(left) - height(right);
-		if (balance < -1){
+		if (balance < -1) {
 			// The tree is right-heavy.
-			if (height(right.left) > height(right.right)){
+			if (height(right.left) > height(right.right)) {
 				this.right = this.right.rightRotate();
 				return leftRotate();
-			} else{
+			} else {
 				return leftRotate();
 			}
-		} else if (balance > 1){
+		} else if (balance > 1) {
 			// The tree is left-heavy.
-			if (height(left.right) > height(left.left)){
+			if (height(left.right) > height(left.left)) {
 				this.left = this.left.leftRotate();
 				return rightRotate();
 			} else
@@ -161,7 +162,7 @@ public class TreeNode<T extends Comparable<? super T>> implements Iterable<Inter
 	 * @return The new root of the subtree rooted at the current node, after the
 	 * rotation has been performed.
 	 */
-	private TreeNode<T> leftRotate(){
+	private TreeNode<T> leftRotate() {
 		TreeNode<T> head = right;
 		right = head.left;
 		head.left = this;
@@ -179,7 +180,7 @@ public class TreeNode<T extends Comparable<? super T>> implements Iterable<Inter
 	 * @return The new root of the subtree rooted at the current node, after the
 	 * rotation has been performed.
 	 */
-	private TreeNode<T> rightRotate(){
+	private TreeNode<T> rightRotate() {
 		TreeNode<T> head = left;
 		left = head.right;
 		head.right = this;
@@ -200,14 +201,14 @@ public class TreeNode<T extends Comparable<? super T>> implements Iterable<Inter
 	private TreeNode<T> assimilateOverlappingIntervals(TreeNode<T> from) {
 		ArrayList<Interval<T>> tmp = new ArrayList<>();
 
-		if (midpoint.compareTo(from.midpoint) < 0){
-			for (Interval<T> next: from.increasing){
+		if (midpoint.compareTo(from.midpoint) < 0) {
+			for (Interval<T> next : from.increasing) {
 				if (next.isRightOf(midpoint))
 					break;
 				tmp.add(next);
 			}
 		} else {
-			for (Interval<T> next: from.decreasing){
+			for (Interval<T> next : from.decreasing) {
 				if (next.isLeftOf(midpoint))
 					break;
 				tmp.add(next);
@@ -218,7 +219,7 @@ public class TreeNode<T extends Comparable<? super T>> implements Iterable<Inter
 		from.decreasing.removeAll(tmp);
 		increasing.addAll(tmp);
 		decreasing.addAll(tmp);
-		if (from.increasing.size() == 0){
+		if (from.increasing.size() == 0) {
 			return deleteNode(from);
 		}
 		return from;
@@ -236,18 +237,19 @@ public class TreeNode<T extends Comparable<? super T>> implements Iterable<Inter
 	 *            the query point.
 	 * @return The set of all intervals from the current subtree, containing the query.
 	 */
-	public static <T extends Comparable<? super T>> Set<Interval<T>> query(TreeNode<T> root, T point, Set<Interval<T>> res) {
+	public static <T extends Comparable<? super T>> Set<Interval<T>> query(TreeNode<T> root, T point,
+			Set<Interval<T>> res) {
 		if (root == null)
 			return res;
-		if (point.compareTo(root.midpoint) <= 0){
-			for (Interval<T> next: root.increasing){
+		if (point.compareTo(root.midpoint) <= 0) {
+			for (Interval<T> next : root.increasing) {
 				if (next.isRightOf(point))
 					break;
 				res.add(next);
 			}
 			return TreeNode.query(root.left, point, res);
-		} else{
-			for (Interval<T> next: root.decreasing){
+		} else {
+			for (Interval<T> next : root.decreasing) {
 				if (next.isLeftOf(point))
 					break;
 				res.add(next);
@@ -275,18 +277,19 @@ public class TreeNode<T extends Comparable<? super T>> implements Iterable<Inter
 	 *         interval has been removed. This could be {@code null} if the interval
 	 *         was the last one stored at the subtree.
 	 */
-	public static <T extends Comparable<? super T>> TreeNode<T> removeInterval(IntervalTree<T> tree, TreeNode<T> root, Interval<T> interval) {
+	public static <T extends Comparable<? super T>> TreeNode<T> removeInterval(IntervalTree<T> tree, TreeNode<T> root,
+			Interval<T> interval) {
 		if (root == null)
 			return null;
-		if (interval.contains(root.midpoint)){
+		if (interval.contains(root.midpoint)) {
 			if (root.decreasing.remove(interval))
 				tree.size--;
 			root.increasing.remove(interval);
-			if (root.increasing.size() == 0){
+			if (root.increasing.size() == 0) {
 				return deleteNode(root);
 			}
 
-		} else if (interval.isLeftOf(root.midpoint)){
+		} else if (interval.isLeftOf(root.midpoint)) {
 			root.left = removeInterval(tree, root.left, interval);
 		} else {
 			root.right = removeInterval(tree, root.right, interval);
@@ -307,7 +310,7 @@ public class TreeNode<T extends Comparable<? super T>> implements Iterable<Inter
 		if (root.left == null && root.right == null)
 			return null;
 
-		if (root.left == null){
+		if (root.left == null) {
 			// If the left child is empty, then the right subtree can consist of at most
 			// one node, otherwise it would have been unbalanced. So, just return
 			// the right child.
@@ -315,7 +318,7 @@ public class TreeNode<T extends Comparable<? super T>> implements Iterable<Inter
 		} else {
 			TreeNode<T> node = root.left;
 			Stack<TreeNode<T>> stack = new Stack<>();
-			while (node.right != null){
+			while (node.right != null) {
 				stack.push(node);
 				node = node.right;
 			}
@@ -326,7 +329,7 @@ public class TreeNode<T extends Comparable<? super T>> implements Iterable<Inter
 			node.right = root.right;
 
 			TreeNode<T> newRoot = node;
-			while (!stack.isEmpty()){
+			while (!stack.isEmpty()) {
 				node = stack.pop();
 				if (!stack.isEmpty())
 					stack.peek().right = newRoot.assimilateOverlappingIntervals(node);
@@ -349,7 +352,8 @@ public class TreeNode<T extends Comparable<? super T>> implements Iterable<Inter
 	 * @param query   The query interval.
 	 * @param result  The set which stores all intervals in the tree, intersecting the query.
 	 */
-	static <T extends Comparable<? super T>> void rangeQueryLeft(TreeNode<T> node, Interval<T> query, Set<Interval<T>> result) {
+	static <T extends Comparable<? super T>> void rangeQueryLeft(TreeNode<T> node, Interval<T> query,
+			Set<Interval<T>> result) {
 		while (node != null) {
 			if (query.contains(node.midpoint)) {
 				result.addAll(node.increasing);
@@ -359,7 +363,7 @@ public class TreeNode<T extends Comparable<? super T>> implements Iterable<Inter
 				}
 				node = node.left;
 			} else {
-				for (Interval<T> next: node.decreasing){
+				for (Interval<T> next : node.decreasing) {
 					if (next.isLeftOf(query))
 						break;
 					result.add(next);
@@ -381,7 +385,8 @@ public class TreeNode<T extends Comparable<? super T>> implements Iterable<Inter
 	 * @param query   The query interval.
 	 * @param result  The set which stores all intervals in the tree, intersecting the query.
 	 */
-	static <T extends Comparable<? super T>> void rangeQueryRight(TreeNode<T> node, Interval<T> query, Set<Interval<T>> result) {
+	static <T extends Comparable<? super T>> void rangeQueryRight(TreeNode<T> node, Interval<T> query,
+			Set<Interval<T>> result) {
 		while (node != null) {
 			if (query.contains(node.midpoint)) {
 				result.addAll(node.increasing);
@@ -391,7 +396,7 @@ public class TreeNode<T extends Comparable<? super T>> implements Iterable<Inter
 				}
 				node = node.right;
 			} else {
-				for (Interval<T> next: node.increasing){
+				for (Interval<T> next : node.increasing) {
 					if (next.isRightOf(query))
 						break;
 					result.add(next);

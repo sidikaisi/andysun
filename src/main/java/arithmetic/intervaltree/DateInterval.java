@@ -14,7 +14,8 @@ public class DateInterval extends Interval<Date> {
 	 * Instantiates an interval extending from positive infinity to negative
 	 * infinity and thus containing all Dates.
 	 */
-	public DateInterval(){}
+	public DateInterval() {
+	}
 
 	/**
 	 * Instantiates a new bounded interval.
@@ -25,7 +26,7 @@ public class DateInterval extends Interval<Date> {
 	 *             of its ends. See {@link Bounded the documentation of the Bounded enum}
 	 *             for more information on the different possibilities.
 	 */
-	public DateInterval(Date start, Date end, Bounded type){
+	public DateInterval(Date start, Date end, Bounded type) {
 		super(start, end, type);
 	}
 
@@ -39,7 +40,7 @@ public class DateInterval extends Interval<Date> {
 	 *             as well as if it is open or closed at the bounding point. See {@link Unbounded
 	 *             the Unbounded enum} for description of the different possibilities.
 	 */
-	public DateInterval(Date value, Unbounded type){
+	public DateInterval(Date value, Unbounded type) {
 		super(value, type);
 	}
 
@@ -67,13 +68,13 @@ public class DateInterval extends Interval<Date> {
 
 		// If the calculation would return the start point and the start point
 		// is actually not in the interval, return the end point.
-		if (start+1 == end && !isStartInclusive())
+		if (start + 1 == end && !isStartInclusive())
 			return getEnd();
 
 		// Prevent an overflow
 		if (start <= 0 && end >= 0)
 			return new Date((end + start) / 2);
 
-		return new Date(start + (end-start)/2);
+		return new Date(start + (end - start) / 2);
 	}
 }

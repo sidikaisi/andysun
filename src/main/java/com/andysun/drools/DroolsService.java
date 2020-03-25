@@ -21,18 +21,18 @@ import utils.SpringContextUtil;
 public class DroolsService implements IDroolsService {
 
 	@Override
-	public UserEntity testRule(){
-		KieSessionsPool kieSessionsPool = (KieSessionsPool)SpringContextUtil.getBean(KieSessionsPool.class);
+	public UserEntity testRule() {
+		KieSessionsPool kieSessionsPool = (KieSessionsPool) SpringContextUtil.getBean(KieSessionsPool.class);
 		UserEntity user = new UserEntity();
 		UserEntity t = new UserEntity();
 		t.setName("andysun");
 		KieSession kieSession = kieSessionsPool.newKieSession();
 		kieSession.insert(user);
 		kieSession.insert(t);
-		long t1 =System.currentTimeMillis();
+		long t1 = System.currentTimeMillis();
 		int count = kieSession.fireAllRules(new RuleNameStartsWithAgendaFilter("test_"));
-		log.info(">>>>>>规则个数{},耗时{}",count,(System.currentTimeMillis()-t1));
-		log.info(">>>>>>,user={}",JSONObject.toJSONString(user));
+		log.info(">>>>>>规则个数{},耗时{}", count, (System.currentTimeMillis() - t1));
+		log.info(">>>>>>,user={}", JSONObject.toJSONString(user));
 		kieSession.dispose();
 		return user;
 	}

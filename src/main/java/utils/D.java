@@ -8,7 +8,7 @@ package utils;
  **/
 public class D {
 
-	private int v ;
+	private int v;
 
 	private String n;
 
@@ -25,7 +25,7 @@ public class D {
 		return n;
 	}
 
-	public String cacl(){
-		return v == 1 ?"NO":"YES";
+	public String cacl() {
+		return v == 1 ? "NO" : "YES";
 	}
 }

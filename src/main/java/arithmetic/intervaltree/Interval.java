@@ -67,7 +67,7 @@ public abstract class Interval<T extends Comparable<? super T>> {
 	 * Instantiates a new interval representing all points in the domain of definition,
 	 * i.e. this will instantiate the interval (-inf, +inf).
 	 */
-	public Interval(){
+	public Interval() {
 		isStartInclusive = true;
 		isEndInclusive = true;
 	}
@@ -81,12 +81,12 @@ public abstract class Interval<T extends Comparable<? super T>> {
 	 *             of its ends. See {@link Bounded the documentation of the Bounded enum}
 	 *             for more information on the different possibilities.
 	 */
-	public Interval(T start, T end, Bounded type){
+	public Interval(T start, T end, Bounded type) {
 		this.start = start;
 		this.end = end;
 		if (type == null)
 			type = Bounded.CLOSED;
-		switch (type){
+		switch (type) {
 			case OPEN:
 				break;
 			case CLOSED:
@@ -112,10 +112,10 @@ public abstract class Interval<T extends Comparable<? super T>> {
 	 *             as well as if it is open or closed at the bounding point. See {@link Unbounded
 	 *             the Unbounded enum} for description of the different possibilities.
 	 */
-	public Interval(T value, Unbounded type){
+	public Interval(T value, Unbounded type) {
 		if (type == null)
 			type = Unbounded.CLOSED_RIGHT;
-		switch (type){
+		switch (type) {
 			case OPEN_LEFT:
 				start = value;
 				isStartInclusive = false;
@@ -156,7 +156,7 @@ public abstract class Interval<T extends Comparable<? super T>> {
 		if (start == null || end == null)
 			return false;
 		int compare = start.compareTo(end);
-		if (compare>0)
+		if (compare > 0)
 			return true;
 		if (compare == 0 && (!isEndInclusive || !isStartInclusive))
 			return true;
@@ -200,7 +200,7 @@ public abstract class Interval<T extends Comparable<? super T>> {
 	 * @param isEndInclusive {@code true}, if the end is inclusive or false otherwise
 	 * @return The newly created interval.
 	 */
-	protected Interval<T> create(T start, boolean isStartInclusive, T end, boolean isEndInclusive){
+	protected Interval<T> create(T start, boolean isStartInclusive, T end, boolean isEndInclusive) {
 		Interval<T> interval = create();
 		interval.start = start;
 		interval.isStartInclusive = isStartInclusive;
@@ -210,19 +210,22 @@ public abstract class Interval<T extends Comparable<? super T>> {
 	}
 
 	/** Returns the start point of the interval. */
-	public T getStart(){
+	public T getStart() {
 		return start;
 	}
+
 	/** Returns the end point of the interval. */
-	public T getEnd(){
+	public T getEnd() {
 		return end;
 	}
+
 	/** Returns {@code true}, if the start point is a part of the interval, or false otherwise. */
-	public boolean isStartInclusive(){
+	public boolean isStartInclusive() {
 		return isStartInclusive;
 	}
+
 	/** Returns {@code true}, if the end point is a part of the interval, or false otherwise. */
-	public boolean isEndInclusive(){
+	public boolean isEndInclusive() {
 		return isEndInclusive;
 	}
 
@@ -231,7 +234,7 @@ public abstract class Interval<T extends Comparable<? super T>> {
 	 *
 	 * @return {@code true}, if the current interval represents a single point.
 	 */
-	public boolean isPoint(){
+	public boolean isPoint() {
 		if (start == null || end == null) {
 			return false;
 		}
@@ -244,7 +247,7 @@ public abstract class Interval<T extends Comparable<? super T>> {
 	 * @param query The point.
 	 * @return {@code true}, if the current interval contains the {@code query} point or false otherwise.
 	 */
-	public boolean contains(T query){
+	public boolean contains(T query) {
 		if (isEmpty() || query == null) {
 			return false;
 		}
@@ -265,14 +268,15 @@ public abstract class Interval<T extends Comparable<? super T>> {
 	 * @param other The other interval
 	 * @return The intersection of the current interval wih the {@code other} interval.
 	 */
-	public Interval<T> getIntersection(Interval<T> other){
+	public Interval<T> getIntersection(Interval<T> other) {
 		if (other == null || isEmpty() || other.isEmpty())
 			return null;
 		// Make sure that the one with the smaller starting point gets intersected with the other.
 		// If necessary, swap the intervals
-		if ((other.start == null && start != null) || (start != null && start.compareTo(other.start)>0))
+		if ((other.start == null && start != null) || (start != null && start.compareTo(other.start) > 0))
 			return other.getIntersection(this);
-		if (end != null && other.start != null && (end.compareTo(other.start) < 0 || (end.compareTo(other.start) == 0 && (!isEndInclusive || !other.isStartInclusive))))
+		if (end != null && other.start != null && (end.compareTo(other.start) < 0 || (end.compareTo(other.start) == 0
+				&& (!isEndInclusive || !other.isStartInclusive))))
 			return null;
 
 		T newStart, newEnd;
@@ -280,7 +284,7 @@ public abstract class Interval<T extends Comparable<? super T>> {
 
 		// If other.start is null, this means my start is also null, because we made sure
 		// that the caller object hast the smaller start point => the new start is null
-		if (other.start == null){
+		if (other.start == null) {
 			newStart = null;
 			isNewStartInclusive = true;
 		} else {
@@ -291,18 +295,18 @@ public abstract class Interval<T extends Comparable<? super T>> {
 				isNewStartInclusive = other.isStartInclusive;
 		}
 
-		if (end == null){
+		if (end == null) {
 			newEnd = other.end;
 			isNewEndInclusive = other.isEndInclusive;
-		} else if (other.end == null){
+		} else if (other.end == null) {
 			newEnd = end;
 			isNewEndInclusive = isEndInclusive;
 		} else {
 			int compare = end.compareTo(other.end);
-			if (compare == 0){
+			if (compare == 0) {
 				newEnd = end;
 				isNewEndInclusive = isEndInclusive && other.isEndInclusive;
-			} else if (compare < 0){
+			} else if (compare < 0) {
 				newEnd = end;
 				isNewEndInclusive = isEndInclusive;
 			} else {
@@ -323,8 +327,8 @@ public abstract class Interval<T extends Comparable<? super T>> {
 	 * @return {@code true}, if the interval {@code another} is contained in the current interval in
 	 * its entirety, or {@code false} otherwise.
 	 */
-	public boolean contains(Interval<T> another){
-		if (another == null || isEmpty() || another.isEmpty()){
+	public boolean contains(Interval<T> another) {
+		if (another == null || isEmpty() || another.isEmpty()) {
 			return false;
 		}
 		Interval<T> intersection = getIntersection(another);
@@ -339,7 +343,7 @@ public abstract class Interval<T extends Comparable<? super T>> {
 	 * @param query The interval being checked for intersection with the current interval.
 	 * @return {@code true}, if the two intervals intersect or {@code false} otherwise.
 	 */
-	public boolean intersects(Interval<T> query){
+	public boolean intersects(Interval<T> query) {
 		if (query == null)
 			return false;
 		Interval<T> intersection = getIntersection(query);
@@ -359,7 +363,7 @@ public abstract class Interval<T extends Comparable<? super T>> {
 	 * @return {@code true}, if the current interval is entirely to the right of the {@code other}
 	 * interval, or {@code false} instead.
 	 */
-	public boolean isRightOf(T point, boolean inclusive){
+	public boolean isRightOf(T point, boolean inclusive) {
 		if (point == null || start == null)
 			return false;
 		int compare = point.compareTo(start);
@@ -379,7 +383,7 @@ public abstract class Interval<T extends Comparable<? super T>> {
 	 * @return {@code true}, if the current interval is entirely to the right of the {@code other}
 	 * interval, or {@code false} instead.
 	 */
-	public boolean isRightOf(T point){
+	public boolean isRightOf(T point) {
 		return isRightOf(point, true);
 	}
 
@@ -395,7 +399,7 @@ public abstract class Interval<T extends Comparable<? super T>> {
 	 * @return {@code true}, if the current interval is entirely to the right of the {@code other}
 	 * interval, or {@code false} instead.
 	 */
-	public boolean isRightOf(Interval<T> other){
+	public boolean isRightOf(Interval<T> other) {
 		if (other == null || other.isEmpty())
 			return false;
 		return isRightOf(other.end, other.isEndInclusive());
@@ -414,7 +418,7 @@ public abstract class Interval<T extends Comparable<? super T>> {
 	 * @return {@code true}, if the current interval is entirely to the left of the {@code other}
 	 * interval, or {@code false} instead.
 	 */
-	public boolean isLeftOf(T point, boolean inclusive){
+	public boolean isLeftOf(T point, boolean inclusive) {
 		if (point == null || end == null)
 			return false;
 		int compare = point.compareTo(end);
@@ -434,7 +438,7 @@ public abstract class Interval<T extends Comparable<? super T>> {
 	 * @return {@code true}, if the current interval is entirely to the left of the {@code other}
 	 * interval, or {@code false} instead.
 	 */
-	public boolean isLeftOf(T point){
+	public boolean isLeftOf(T point) {
 		return isLeftOf(point, true);
 	}
 
@@ -450,7 +454,7 @@ public abstract class Interval<T extends Comparable<? super T>> {
 	 * @return {@code true}, if the current interval is entirely to the left of the {@code other}
 	 * interval, or {@code false} instead.
 	 */
-	public boolean isLeftOf(Interval<T> other){
+	public boolean isLeftOf(Interval<T> other) {
 		if (other == null || other.isEmpty())
 			return false;
 		return isLeftOf(other.start, other.isStartInclusive());
@@ -461,7 +465,7 @@ public abstract class Interval<T extends Comparable<? super T>> {
 	 * not be used as a standalone {@link Comparator}. It only serves to create a more readable and
 	 * modular code.
 	 */
-	private int compareStarts(Interval<T> other){
+	private int compareStarts(Interval<T> other) {
 		if (start == null && other.start == null)
 			return 0;
 		if (start == null)
@@ -481,7 +485,7 @@ public abstract class Interval<T extends Comparable<? super T>> {
 	 * not be used as a standalone {@link Comparator}. It only serves to create a more readable and
 	 * modular code.
 	 */
-	private int compareEnds(Interval<T> other){
+	private int compareEnds(Interval<T> other) {
 		if (end == null && other.end == null)
 			return 0;
 		if (end == null)
@@ -589,7 +593,7 @@ public abstract class Interval<T extends Comparable<? super T>> {
 	 *     <li>1, if this object is greater than the {@code other}.</li>
 	 * </ul>
 	 */
-	protected int compareSpecialization(Interval<T> other){
+	protected int compareSpecialization(Interval<T> other) {
 		return 0;
 	}
 
@@ -597,7 +601,7 @@ public abstract class Interval<T extends Comparable<? super T>> {
 	public int hashCode() {
 		int prime = 31;
 		int result = start == null ? 0 : start.hashCode();
-		result = prime * result +(end == null ? 0 : end.hashCode());
+		result = prime * result + (end == null ? 0 : end.hashCode());
 		result = prime * result + (isStartInclusive ? 1 : 0);
 		result = prime * result + (isEndInclusive ? 1 : 0);
 		return result;
@@ -624,7 +628,7 @@ public abstract class Interval<T extends Comparable<? super T>> {
 	}
 
 
-	public Builder builder(){
+	public Builder builder() {
 		return new Builder(this);
 	}
 
@@ -651,7 +655,7 @@ public abstract class Interval<T extends Comparable<? super T>> {
 		 *            new object. The reference interval doesn't influence the start and
 		 *            end points of the new interval in any way.
 		 */
-		private Builder(Interval<T> ref){
+		private Builder(Interval<T> ref) {
 			interval = ref.create();
 		}
 
@@ -663,7 +667,7 @@ public abstract class Interval<T extends Comparable<? super T>> {
 		 *
 		 * @param start The value for the start point of the new interval.
 		 */
-		public Builder greater(T start){
+		public Builder greater(T start) {
 			interval.start = start;
 			interval.isStartInclusive = false;
 			return this;
@@ -677,7 +681,7 @@ public abstract class Interval<T extends Comparable<? super T>> {
 		 *
 		 * @param start The value for the start point of the new interval.
 		 */
-		public Builder greaterEqual(T start){
+		public Builder greaterEqual(T start) {
 			interval.start = start;
 			interval.isStartInclusive = true;
 			return this;
@@ -691,7 +695,7 @@ public abstract class Interval<T extends Comparable<? super T>> {
 		 *
 		 * @param end The value for the end point of the new interval.
 		 */
-		public Builder less(T end){
+		public Builder less(T end) {
 			interval.end = end;
 			interval.isEndInclusive = false;
 			return this;
@@ -705,7 +709,7 @@ public abstract class Interval<T extends Comparable<? super T>> {
 		 *
 		 * @param end The value for the end point of the new interval.
 		 */
-		public Builder lessEqual(T end){
+		public Builder lessEqual(T end) {
 			interval.end = end;
 			interval.isEndInclusive = true;
 			return this;
@@ -715,7 +719,7 @@ public abstract class Interval<T extends Comparable<? super T>> {
 		 * Builds the new interval
 		 * @return The newly created interval.
 		 */
-		public Interval<T> build(){
+		public Interval<T> build() {
 			return interval;
 		}
 	}

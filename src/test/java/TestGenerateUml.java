@@ -84,7 +84,8 @@ public class TestGenerateUml {
 		});
 	}
 
-	private void commonExecInitNode(List<Map<String, Object>> tables, Vector<String> nodes, Set<String> startTableAttrMap){
+	private void commonExecInitNode(List<Map<String, Object>> tables, Vector<String> nodes,
+			Set<String> startTableAttrMap) {
 		tables.forEach(t -> {
 			String tableName = t.get("Tables_in_t1").toString();
 			List<Map<String, Object>> maps = jdbcTemplate.queryForList(

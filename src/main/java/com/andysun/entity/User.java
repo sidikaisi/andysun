@@ -1,6 +1,7 @@
 package com.andysun.entity;
 
 import java.time.LocalDate;
+
 import com.andysun.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -8,7 +9,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author zhangxiaojun
@@ -19,17 +20,17 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class User extends BaseEntity {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * 名称
-     */
-    private String name;
+	/**
+	 * 名称
+	 */
+	private String name;
 
-    /**
-     * 生日
-     */
-    private LocalDate birthday;
+	/**
+	 * 生日
+	 */
+	private LocalDate birthday;
 
 
 }

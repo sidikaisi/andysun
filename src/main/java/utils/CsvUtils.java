@@ -43,7 +43,7 @@ public class CsvUtils {
 			HttpServletResponse response, String fileName) {
 		BufferedWriter buffCvsWriter = null;
 		try {
-			fileName += "-"+DateUtils.formatDate2Str(new Date(),DateUtils.YYYYMMDD)+".csv";
+			fileName += "-" + DateUtils.formatDate2Str(new Date(), DateUtils.YYYYMMDD) + ".csv";
 			fileName = URLEncoder.encode(fileName, StandardCharsets.UTF_8.toString());
 			response.setContentType(CONTENT_TYPE_CSV);
 			response.setHeader("Content-Disposition", "attachment; filename*=UTF-8''" + fileName);
@@ -75,7 +75,7 @@ public class CsvUtils {
 					}
 					if (val instanceof Date) {
 						String format = DateUtils.YYYY_MM_DD;
-						if(params.length >2){
+						if (params.length > 2) {
 							format = params[2];
 						}
 						val = DateUtils.formatDate2Str((Date) val, format);
