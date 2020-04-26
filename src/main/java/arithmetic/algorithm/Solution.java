@@ -1,6 +1,7 @@
 package arithmetic.algorithm;
 
-import java.util.Objects;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *  @Description
@@ -18,17 +19,49 @@ import java.util.Objects;
  **/
 public class Solution {
 
-	public int lengthOfLongestSubstring(String s) {
+	public static void main(String[] args) {
+		System.out.println("方法1："+lengthOfLongestSubstring("adasjkhjkhdsa"));
+		System.out.println("方法2："+lengthOfLongestSubstring2("adasjkhjkhdsa"));
+	}
+
+	public static int lengthOfLongestSubstring2(String s){
+		int l = s.length();
+		Set<Character> set = new HashSet<>(l);
+		int res = 0,i = 0,j = 0;
+		while (i < l && j < l){
+			if(!set.contains(s.charAt(j))){
+				set.add(s.charAt(j++));
+				res = Math.max(res,j-i);
+			}else {
+				set.remove(s.charAt(i++));
+			}
+		}
+		return res;
+	}
+
+	public static int lengthOfLongestSubstring(String s) {
 		int l = s.length();
 		int res = 0;
 		for (int i = 0; i < l; i++) {
 			for (int j = i + 1; j <= l; j++) {
-
+				if(allUnique(s,i,j)){
+					res = Math.max(res,j-i);
+				}
 			}
 		}
+
+		return res;
 	}
 
-	private boolean existDuplicate() {
-
+	private static boolean allUnique(String s,int start,int end) {
+		Set<Character> set = new HashSet<>();
+		for (int i=start;i<end ;i++){
+			Character c = s.charAt(i);
+			if(set.contains(c)){
+				return false;
+			}
+			set.add(c);
+		}
+		return true;
 	}
 }
